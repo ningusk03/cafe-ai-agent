@@ -5,7 +5,8 @@ from google import genai
 st.set_page_config(page_title="Bean & Brew Cafe AI", page_icon="☕")
 st.title("☕ Bean & Brew - Customer AI Agent")
 
-API_KEY = "AQ.Ab8RN6JVg2C9_GGFci3saVVcj4VE1vKpLu86hS8VFR-6uqEb_g"
+# API Key ಕಾನ್ಫಿಗರೇಶನ್
+API_KEY = "AQ.Ab8RN6INRVJt8LV4m-D91zyT8jS8hoKwkklbCQNuSJ6AmH44Kg"
 client = genai.Client(api_key=API_KEY)
 
 SYSTEM_INSTRUCTION = """
@@ -26,10 +27,12 @@ Your responsibilities:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# ಹಿಂದಿನ ಸಂದೇಶಗಳನ್ನು ಪ್ರದರ್ಶಿಸುವುದು
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
+# ಚಾಟ್ ಇನ್‌ಪುಟ್
 if prompt := st.chat_input("Ask about the menu or place an order..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
