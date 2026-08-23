@@ -1,7 +1,7 @@
 import streamlit as st
 from groq import Groq
 
-# Page configuration
+# Set page configuration
 st.set_page_config(page_title="Bean & Brew Cafe AI", page_icon="☕", layout="centered")
 
 # Groq API Key
@@ -9,7 +9,7 @@ GROQ_API_KEY = "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"
 
 client = Groq(api_key=GROQ_API_KEY)
 
-# Cafe rules
+# Cafe Context & Prompt Rules
 SYSTEM_INSTRUCTION = """
 You are the friendly, witty, and efficient AI Assistant for 'Bean & Brew Cafe'.
 Your goal is to assist customers with menu inquiries, coffee recommendations, pricing, store hours, and taking mock orders.
@@ -32,18 +32,22 @@ Keep answers crisp, conversational, polite, and coffee-enthusiastic!
 st.title("☕ Bean & Brew - Customer AI Agent")
 st.write("Welcome to Bean & Brew! Ask about our menu, specials, or hours.")
 
+# Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Display chat history
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
+# Customer Input
 if prompt := st.chat_input("Ask something (e.g., 'What is on the menu?')"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
+    # Generate response using Groq
     with st.chat_message("assistant"):
         with st.spinner("Brewing a response..."):
             try:
@@ -52,7 +56,7 @@ if prompt := st.chat_input("Ask something (e.g., 'What is on the menu?')"):
                     messages.append({"role": m["role"], "content": m["content"]})
 
                 response = client.chat.completions.create(
-                    model="mixtral-8x7b-32768",
+                    model="llama-3.1-8b-instant",
                     messages=messages,
                 )
                 bot_reply = response.choices[0].message.content
@@ -60,3 +64,4 @@ if prompt := st.chat_input("Ask something (e.g., 'What is on the menu?')"):
                 st.session_state.messages.append({"role": "assistant", "content": bot_reply})
             except Exception as e:
                 st.error(f"Error: {e}")
+                
