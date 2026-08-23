@@ -1,15 +1,12 @@
 import streamlit as st
-import os
-from google import genai
+import google.generativeai as genai
 
 st.set_page_config(page_title="Bean & Brew Cafe AI", page_icon="☕")
 st.title("☕ Bean & Brew - Customer AI Agent")
 
-# Set Gemini API Key
+# API Key ಕಾನ್ಫಿಗರೇಶನ್
 API_KEY = "AQ.Ab8RN6LrMSr8-aRkZmVdQeQE1vne9gAOlltDT5OCxsVy8Zy3Gw"
-os.environ["GEMINI_API_KEY"] = API_KEY
-
-client = genai.Client()
+genai.configure(api_key=API_KEY)
 
 SYSTEM_INSTRUCTION = """
 You are a friendly and helpful AI Customer Support Agent for a modern Cafe called "Bean & Brew".
@@ -26,6 +23,11 @@ Your responsibilities:
 4. Keep responses concise, clear, and professional.
 """
 
+model = genai.GenerativeModel(
+    model_name="gemini-1.5-flash",
+    system_instruction=SYSTEM_INSTRUCTION
+)
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -41,13 +43,7 @@ if prompt := st.chat_input("Ask about the menu or place an order..."):
         st.markdown(prompt)
 
     try:
-        response = client.models.generate_content(
-            model="gemini-3.6-flash",
-            contents=prompt,
-            config=genai.types.GenerateContentConfig(
-                system_instruction=SYSTEM_INSTRUCTION
-            )
-        )
+        response = model.generate_content(prompt)
         reply = response.text
     except Exception as e:
         reply = f"Error: {e}"
