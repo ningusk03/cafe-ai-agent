@@ -4,7 +4,7 @@ import requests
 st.set_page_config(page_title="Bean & Brew Cafe AI", page_icon="☕")
 st.title("☕ Bean & Brew - Customer AI Agent")
 
-API_KEY = "AQ.Ab8RN6JNbQiawfWBohBUZ6WGN6jjYFsQk5jCHE5dKGLM5AZmQ"
+API_KEY = "AQ.Ab8RN6ISZxuO1HJ-i4D5FQiZrzLi2sa_UiPIA203W3foXjx23A"
 
 SYSTEM_INSTRUCTION = """
 You are a friendly and helpful AI Customer Support Agent for a modern Cafe called "Bean & Brew".
