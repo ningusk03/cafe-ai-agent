@@ -52,7 +52,7 @@ if prompt := st.chat_input("Ask something (e.g., 'What is on the menu?')"):
                     messages.append({"role": m["role"], "content": m["content"]})
 
                 response = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
+                    model="mixtral-8x7b-32768",
                     messages=messages,
                 )
                 bot_reply = response.choices[0].message.content
