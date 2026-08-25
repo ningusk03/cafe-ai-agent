@@ -1,7 +1,7 @@
 import streamlit as st
 from groq import Groq
 
-# Set page configuration
+# Page configuration
 st.set_page_config(page_title="Bean & Brew Cafe AI", page_icon="☕", layout="centered")
 
 # Groq API Key
@@ -56,7 +56,7 @@ if prompt := st.chat_input("Ask something (e.g., 'What is on the menu?')"):
                     messages.append({"role": m["role"], "content": m["content"]})
 
                 response = client.chat.completions.create(
-                   model="llama-3.3-70b-versatile",
+                    model="llama-3.3-70b-versatile",
                     messages=messages,
                 )
                 bot_reply = response.choices[0].message.content
@@ -64,4 +64,3 @@ if prompt := st.chat_input("Ask something (e.g., 'What is on the menu?')"):
                 st.session_state.messages.append({"role": "assistant", "content": bot_reply})
             except Exception as e:
                 st.error(f"Error: {e}")
-                
