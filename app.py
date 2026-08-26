@@ -4,8 +4,8 @@ from groq import Groq
 # Page configuration
 st.set_page_config(page_title="Bean & Brew Cafe AI", page_icon="☕", layout="centered")
 
-# Groq API Key
-GROQ_API_KEY = "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"
+# Groq API Key (loaded securely from Streamlit secrets)
+GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 
 client = Groq(api_key=GROQ_API_KEY)
 
@@ -56,7 +56,7 @@ if prompt := st.chat_input("Ask something (e.g., 'What is on the menu?')"):
                     messages.append({"role": m["role"], "content": m["content"]})
 
                 response = client.chat.completions.create(
-                    model="llama-3.3-70b-versatile",
+                    model="openai/gpt-oss-120b",
                     messages=messages,
                 )
                 bot_reply = response.choices[0].message.content
